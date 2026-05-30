@@ -1,0 +1,214 @@
+ %
+%  untitled
+%
+%  Created by John Schuler on 2016-11-14.
+%  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
+%
+\documentclass[12pt]{article}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+% Use utf-8 encoding for foreign characters
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{caption}
+% Setup for fullpage use
+\usepackage{fullpage}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{booktabs}
+\usepackage{tikz}
+% Uncomment some of the following if you use the features
+%
+% Running Headers and footers
+%\usepackage{fancyhdr}
+
+% Multipart figures
+%\usepackage{subfigure}
+
+% More symbols
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{latexsym}
+
+% Surround parts of graphics with box
+\usepackage{boxedminipage}
+\newcommand{\dummyfigure}{\tikz \fill [blue] (0,0) rectangle node [black] {Figure} (2,2);}
+% Package for including code in the document
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% If you want to generate a toc for each chapter (use with book)
+\usepackage{minitoc}
+
+% This is now the recommended way for checking for PDFLaTeX:
+\usepackage{ifpdf}
+\usepackage{natbib}
+\usepackage{wrapfig}
+%\usepackage[numbers]{natbib}
+%\newif\ifpdf
+%\ifx\pdfoutput\undefined
+%\pdffalse % we are not running PDFLaTeX
+%\else
+%\pdfoutput=1 % we are running PDFLaTeX
+%\pdftrue
+%\fi
+
+%\ifpdf
+%\usepackage[pdftex]{graphicx}
+%\else
+%\usepackage{graphicx}
+%\fi
+\title{A Bank Run Model for the Twentieth Century}
+\author{John S. Schuler \\ Department of Computational and Data Sciences \\ George Mason University}
+
+\date{\today}
+\usepackage{setspace}
+\usepackage{Sweave}
+\begin{document}
+\input{draft-concordance}
+\maketitle
+\begin{abstract}
+	Diamond and Dybvig 1983 is a now classic model of banking failure. This model and the considerable ancilliary literature studies two equilibria: the ``good'' equilibrium of bank stability and the ``bad'' equilibrium of bank failure. A major limitation of these models is that while they acknowledge the fact of these two equilibria, they are silent on how a system in the desired equilibrium suddenly moves into the run equilibrium. This paper reconsiders the classic Diamond-Dybvig model as a stochastic process and highlights a serious limitation. The paper then offers a simple replacement model as a basis on which to build more modern models of financial instability. 
+\end{abstract}
+\begin{doublespace}
+\section*{Introduction}
+The Diamond--Dybvig model, \citet{diamond1983bank} is a classic model of bank runs and often cited as a justification for government deposit insurance. Bank runs are an obvious example of the economic
+problem of self-fulfilling prophecies and present major external costs. Further, the Diamond-
+Dybvig model is often used as an argument for “inherent bank fragility” \citet{white1999theory}.
+A core challenge of banking is that agents wish to lend short and borrow long. This is only possible if some entity is
+willing to take the other side of this deal and to pool and manage the correponding risk. For the purpose of this paper, I will
+focus on a single bank in isolation. Thus, distinctions such as illiquidity vs insolvency are not relevant  as the bank has no assets aside from deposits and the only risk is default. This means that the actual probabilities of failure produced by this model are not realistic nor are intended to be so; rather, the mechanism is the object of interest.
+ A core concern in fractional-reserve banking is that of the self-fulflling prophecy. In principle, all fractional reserve banks are prone to runs since the mere belief that a bank
+is in danger can render it so. This speaks to the potential psychological elements in bank runs. As discussed by John Kenneth Galbraith,
+so long as depositors believe they can get their money, the don’t want it \citet{galbraith2017money}.
+ This psychological element fits uncomfortably with traditional economic conceptions of agents. On the other hand, this
+can be taken as a simple fact of agent behavior and so modeled. To the extent this is so,
+techniques based on Von-Neumann- Morgenstern expected utility are not the best modeling
+tool for this purpose. Since the starting point is the Diamond-Dybvig model, the question then is to what extent do bank runs happen with rational agents? It is possible to express the classis Diamond-Dybvig model as a stochastic process. This is the first step in a new approach to modeling bank runs. The second step is to consider the marginal behavior of agents rather than equilibria. The third step is to consider the role of social networks in bank runs. The fourth step is to consider the role of deposit insurance and other policy implications.
+For completeness, the following section is a description of the classic model and the subsequent literature.
+\section{The Diamond-Dybvig Model and Subsequent Literature}
+
+For simplicity, I will follow the presentation in \citet{white1999theory} which is slightly simplified but covers the essentials.
+The model contains three time periods. Agents have deposits. The bank has access to a production technology that will mature at $t=3$. However, there are two
+types of agents. ``Type 1'' agents are not able to wait until $t=3$. Agents do not know which type they are and wish to pool the risk of being type 1. Thus, the
+Diamond-Dybvig ``bank'' refers to an arrangement where depositors receive their deposit + an insurance payment upon withdrawal at $t=2$ and agents that wait until
+$t=3$ are residual claimants and split the return on investment. The bank makes payments on a first-come-first-serve basis. Now since the investment pay out is greater than the insurance pay out, all agents prefer to wait until $t=3$ \emph{at least provided all other agents do so as well}. At $t=2$, agents find out which type they are and these agents withdraw. The risk is that these withdrawals deplete the quantity invested and alter the calculation for all other agents.
+
+Thus, Diamond and Dybvig show there are two equilibria. In one equilibrium, all type 1 agents and possibly some type 2 agents withdraw. The remaining agents consume their return at $t=3$. In the other equilibrium, all type 2 agents also withdraw early because the potential insurance payment exceeds the return on investment for the remaining deposits. The bank cannot tell the two types apart and so cannot deny service to type 2 agents. The ``bad'' equilibriums stems from the fact that if all other agents are withdrawing early,
+it is rational for an agent to withdraw.
+
+\citet{diamond1983bank} inspired an enormous amount of literature. Here, the goal is to consider the most directly relevant. Thus, the focus is on actual models of bank runs rather than either broader macroeconomic models or policy questions involving moral hazard. For simplified presentations of the model itself, see both \citet{diamond2007banks} and the aforementioned \citet{white1999theory}. The inevitably equilibrial nature of the Diamond-Dybvig will become important later. This is discussed in \citet{postlewaite1987bank} where it is shown there exists a unique equilibrium where a bank run exists with a positive probability. This will turn out to be consistent with the model offered below. Relatedly, \citet{shelldiamond} points out that the Diamond--Dybvig equilibrium is \emph{not Walrasian}. The same paper extends the classical model to account for depositor's beliefs about run probability. This extension also is consistent with the model offered below. The authors further point out that the best contract is predicated upon the assumption that bank runs cannot occur. Here they follow \citet{ennis2010fundamental}. A paper also related to this one is \citet{kinateder2014sequential} which actually attempts to model the sequential aspect of the Diamond--Dybvig decision-making. They show that there does exist a run-proof equilibrium assuming agents have complete knowledge of the history of deposit decisions. In \citet{green2000diamond}, the authors show that there is an efficient ex ante equilibrium in a Diamond--Dybvig setup. Also relevant here is their discussion of a three agent model where the behavior of an agent depends on the behavior of a previous agent. This is an important step in an agent-based direction and thus, the model presented below could be considered an extension of this model also. Another generalization of these results appears in \citet{andolfatto2007role} which shows that a truth telling equilibrium is the only equilibrium. This comment is interesting and will not be addressed in the present model. Following the criticisms in \citet{white1999theory}, \citet{peck2003equilibrium} allow partial of full suspension of withdrawal. They further emphasize that runs can occur even under the optimal contract. Generalizing these three approaches, \citet{nosal2009information} discusses what kind of information may be shared among agents and considers bank runs a planning problem. Given the nature of the relationship between depositors and bankers, it is useful to ask then, who is the planner? \citet{peck2019diamond} attempt to extend the Diamond--Dybvig model to allow for endogenous deposits; an approach followed below. Far and away the biggest step in the direction of the model offered below is an evolutionary game theory model found in \citet{smith2014runs}.
+
+\citet{white1999theory} criticized DD from a price theoretic point of view.
+Firstly, the investment is an odd hybrid of debt and equity. This will become important later.
+The bank has no separate class of equity holders which can insulate depositors from losses. Its total debts always exceed its equity.
+This is relevant as there are actual historical examples of bank failures where all depositors were paid in full.
+Real world banks can suspend note redemption. In the real world, this may or may not interfere with consumption but in the Diamond--Dybvig it must.
+
+\section{Literature Review}
+
+\section{A Stochastic Process Version of Diamond-Dybvig}
+\subsection{Formal Description}
+The model contains $n$ identical agents with endowments of 100 for computational simplicity. As these agents are identical, they may be treated as a single representative agent; each risk neutral with logarithmic utility. At $t=1$, the representative agent decides how much of its endowment to deposit subject to the constraint that all other agents do the same. Assume the agent deposits $10\times d$ where $d \in \{1,2,\ldots,10\}$. Let $\mathcal{V}$ refer to the total amount in the vault. Agents withdrawing at $t=2$ receive $\max\left[\min\left[10(1+\iota)d,\mathcal{V}\right],0\right]$ since the agent cannot withdraw more than is in the vault; nor does it make sense for an agent to withdraw a negative amount.  If the agent withdraws at $t=3$, it will get its fair share of the remaining or: $\frac{1}{k}\left(1+\iota + \pi\right)\mathcal{V}$ where $k$ is the number of agents still banking. Now, as in the classical model, some agents withdraw exogenously. In this particular model, exogenous withdrawal count is governed by a random variable $W_{\mathrm{exog}} \sim B\left(n,p\right).$ Then, the exogenous withdrawal at $t=2$ is $w_{\mathrm{exog}}$ agents withdrawing from the bank in a randomized order where $w_{\mathrm{exog}}$ is the realization of $W_{\mathrm{exog}}$. Then, all $n-k$ agents still banking agents reconsider their situation. 
+
+
+The agent then compares its expected utility conditional on withdrawal with its expected utility conditional on staying the course. If the agent decides to withdraw, the possible outcomes are again: $\max\left[\min\left[10\left(1+\iota\right)d,\mathcal{V}\right],0\right]$. For for simplicity, we abbreviate these outcomes $w_{1} \geq w_{2} \geq w_{3}$. Now, as the agent does not know its place in line and the bank faces a sequential service requirement, it is meaningful to define:
+$P\left(W=w_{j}\right)$ for $j \in \{1,2,3\}$. We call this random variable $W_{\mathrm{endog}}$.
+
+If instead, the agent decides to remain banking, the possible outcomes are: $\max\left[\frac{10}{k}\left(1+\iota + \pi\right)\mathcal{V},0\right]$ since the agents share the remainder equally. We can abbreviate these outcomes $s_1 \geq s_2=0$. Again, this induces a random variable we call $R$ for return.  At this point, it might be objected that the residue in the vault is dependent on how many agents withdraw endogenously. It is here that the simplifying assumption of identical agents becomes important. The agents face uncertainty only about their place in line. Now, the agent will withdraw under the condition that:
+$$E\left[u\left(W_{\mathrm{endog}}\right)\right]  \geq E\left[u\left(R\right)\right]$$. Since the agents are identical, this calculation will be identical for all and for this reason we have been able to suppress agent subscripts. Therefore, either all agents will attempt to withdraw or none will withdraw endogeously. 
+
+At this point, the astute reader will notice that the deposit decision has remained yet undefined but the statistical behavior of the bank is not independent of this quantity. How is this decided? This is a question of the model initialization. When the model is initialized, the agents are constrained to all deposit the same portion of their endowment. Recall each agent can deposit up to 100 in units of 10. Each agent knows there are three possibilities: they will be among those who must withdraw exogenously, they will be part of a bank run after exogenous withdrawals, or they will get their fair share of the residual. Now, the possibilities for withdrawing agents remain $w_{1} \geq w_{2} \geq w_{3}$ whether the withdrawal was exogenous or endogenous. Thus, we can define the sample space of a random variable as $w_{1},  w_{2},  w_{3},s_1,s,2$ which for convenience, we relabel: $o_1,o_2,o_3,o_4,o_5$. We will call this random variable $\mathcal{O}$ which depends on the agent's chosen parameter of $d$ and $W_{\mathrm{exog}}$. Agents chose $d$ as 
+$$\operatorname*{argmin}_{d_{0} \in \{1,2,\ldots,10\}}E\left[u\left(\mathcal{O}\right)\left|d=10d_{0}\right.\right]$$
+
+While this probability distribution is not analytically tractable, it is easily simulated. Further, agents choose $d$ after having seen the entire probability distribution of outcomes meaning the agents have \emph{approximately rational expectations} and the model run for the maximizing $d$ will characterize the probability distribution of outcomes for the bank including the failure probability. The parameter $d$ is then endogenous and it is possible to calculate:
+$$P\left(\mathcal{F}\right)=\psi\left(p,\iota,\pi\right).$$ 
+That is, the bank failure probability is entirely a function of these three exogenous parameters. 
+\subsection{Simulation Results}
+
+% failure probability increases with p.
+% failure probability decreases with pi.
+% failure probability increases with iota.
+
+\subsection{Limitations in the Classical Diamond-Dybvig Framework}
+
+% Agents in DD are actually buying an option!
+% the classical model relies on the early withdrawal insurance pay out but
+% this is not a feature of real world deposit banking. 
+% the model behavior is being driven substantially by this artifact
+
+These results reveal some limitations in the Diamond-Dybvig framework. When agents
+decide whether or not to bank, they are not primarily saving or investing but 
+rather \emph{buying an option}. The main outcome is driven by the insurance 
+payout which is an artifact of the model and not a property of real world banking.
+While the Diamond-Dybvig model yields two equilibria which appear to correspond 
+to bank run situations, the model does not explain how a bank in the 
+``good'' equilibrium can suddenly move to the ``bad'' equilibrium. 
+
+
+
+\section{Bank Runs Revisited}
+
+A new approach is required. Instead of starting with equilibria, we can focus on
+the marginal behavior of agents. Let us recall the basic purpose of banking. 
+Agents want to borrow long and lend short. Banks are institutions that take the 
+other side of this transaction. Now, an agent will withdraw funds from a bank if 
+the agent fears inability to do so. Under the assumption the bank is able to pay,
+the opportunity cost of withdraawal is foregone interest for the period the agent
+holds wealth in cash. This is generally small relative to the total deposit even
+for small depositors so a simple-as-possible first pass model may ignore interest
+payments. Also, sun-spot bank runs are likely analytically different from fundamentals-driven
+bank failures so we will focus on the former. Further, the 2023 collapse of 
+Silicon Valley Bank, among others, strongly suggests that social networks play
+a role in bank runs. Social networks alone imply agent heterogeneity and thus,
+a stochastic process model with a representative agent is no sufficient. 
+Instead, we will build a full agent-based model. 
+
+% instead of focusing on equilibria, return to the marginal decision
+% If an agent fears a bank is about to fail, the cost of unncessary withdrawal
+% is foregone interest payments which is small relative to the cost of total or
+% substantial loss of deposited funds
+% thus, Von-Neumann Morgenstern utulity functions are not ideal for this problem. 
+% instead, let agents have a withdrawal threshold probability
+
+% Silicon Valley bank shows that social networks matter
+% thus, an agent-based model is required for 21st century bank run models. 
+
+\section{A Simple Replacement Model}
+An agent-based model inevitable forces the explicit modeling of marginal behavior
+as opposed to limiting the analysis to equilibria. As previously mentioned, 
+foregone interest payments are small relative to the total deposit and so may
+be ignored as a first pass. Additionally, agents are primarily concerned with 
+whether or not they can access the entirety of their deposits. Thus, we have no 
+need of full Von-Neumann-Morgenstern utility functions. Agents will withdraw 
+when the probability of them getting their deposit back in full upon immediate 
+withdrawal exceeds their probability of getting it.
+\subsection{Model Description}
+
+% agents
+% agents have a deposit threshold probability
+% and are connected in a network representing their information set
+% this network is a Watts-Strogatz small world network
+% agent deposits are distributed log-normally. 
+
+\subsubsection{The Agents}
+The model contains 1000 agents. Each agent has a deposit drawn from a log-normal
+distribution. The agents are connected in a Watts-Strogatz small world network. 
+Each agent has a withdrawal threshold probability
+
+% withdrawals
+% some agents withdraw exogenously. This is governed by a truncated geometric
+% distribution. Thus, it is approximately memoryless. 
+
+
+\subsection{Model Results}
+
+\subsection{Deposit Insurance and Policy Implications}
+
+\section{Conclusion}
+\end{doublespace}
+\bibliographystyle{plain}
+\bibliography{banking}
+
+
+\end{document}
