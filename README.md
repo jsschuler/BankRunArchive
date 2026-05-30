@@ -112,7 +112,7 @@ The relative paths `../DDData` and `../BankRunData` are hardcoded in the scripts
 
 If you use this code, please cite:
 
-> Schuler, John S. (2025). "A Bank Run Model for the Twentieth Century." George Mason University, Department of Computational and Data Sciences.
+> Schuler, John S. (forthcoming). "Deposits Are Not Options: Contract Artifacts, Equilibrium Selection, and Network Contagion in Bank Run Models."
 
 The Diamond-Dybvig baseline also builds on:
 
@@ -120,4 +120,4 @@ The Diamond-Dybvig baseline also builds on:
 
 ## License
 
-`diamond-dybvig` is released under the MIT License (see `diamond-dybvig/LICENSE`).
+Both `diamond-dybvig` and `bank-runs-abm` are released under the MIT License (see `diamond-dybvig/LICENSE` and `bank-runs-abm/LICENSE`).
